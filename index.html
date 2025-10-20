@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+   
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Quiz - Snake Game</title>
+   <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1e1e2f;
+      color: #f0f0f0;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #2b2b3d;
+      padding: 30px;
+      width: 450px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #00ffff;
+    }
+
+    .pergunta {
+      text-align: left;
+      margin-bottom: 20px;
+      padding: 10px;
+      border-left: 3px solid #00ffff;
+      background-color: #242436;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #00ffff;
+      color: #1e1e2f;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #00b3b3;
+    }
+
+    #resultado {
+      font-weight: bold;
+      margin-top: 20px;
+      color: #00ffff;
+    }
+
+    .correto {
+      color: #00ff7f;
+      font-weight: bold;
+    }
+
+    .errado {
+      color: #ff4040;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+   <div class="container">
+      <h1>Quiz - HTML e CSS em Projetos Web</h1>
+
+    <form id="quizForm">
+      <div class="pergunta" id="q1box">
+        <p>1) Qual é o propósito da tag <code>&lt;article&gt;</code> no HTML?</p>
+        <label><input type="radio" name="q1" value="a"> Criar uma seção genérica sem significado semântico.</label><br>
+        <label><input type="radio" name="q1" value="b"> Representar um conteúdo independente que pode ser distribuído ou
+          compartilhado separadamente.</label><br>
+        <label><input type="radio" name="q1" value="c"> Definir o cabeçalho principal da página.</label><br>
+        <label><input type="radio" name="q1" value="d"> Aplicar estilos diretamente ao conteúdo.</label>
+      </div>
+
+      <div class="pergunta" id="q2box">
+        <p>2) No CSS, o que a propriedade <code>flex-wrap: wrap</code> faz dentro de um contêiner Flexbox?</p>
+        <label><input type="radio" name="q2" value="a"> Alinha os itens ao centro verticalmente.</label><br>
+        <label><input type="radio" name="q2" value="b"> Permite que os itens quebrem para a próxima linha se não
+          couberem na atual.</label><br>
+        <label><input type="radio" name="q2" value="c"> Remove todos os espaçamentos entre os itens.</label><br>
+        <label><input type="radio" name="q2" value="d"> Gira os itens em 90 graus.</label>
+      </div>
+
+      <div class="pergunta" id="q3box">
+        <p>3) Qual é o efeito da propriedade <code>transition: transform 0.3s</code> combinada com <code>:hover</code>
+          em um elemento?</p>
+        <label><input type="radio" name="q3" value="a"> Aplica uma sombra permanente ao elemento.</label><br>
+        <label><input type="radio" name="q3" value="b"> Faz com que o elemento desapareça ao passar o mouse.</label><br>
+        <label><input type="radio" name="q3" value="c"> Cria uma animação suave ao mover ou transformar o
+          elemento.</label><br>
+        <label><input type="radio" name="q3" value="d"> Altera a cor do texto instantaneamente.</label>
+      </div>
+
+      <div class="pergunta" id="q4box">
+        <p>4) Qual é a função da propriedade <code>gap: 2rem</code> dentro de um layout Flexbox?</p>
+        <label><input type="radio" name="q4" value="a"> Define a altura dos elementos flexíveis.</label><br>
+        <label><input type="radio" name="q4" value="b"> Cria espaçamento entre os itens dentro do contêiner
+          flexível.</label><br>
+        <label><input type="radio" name="q4" value="c"> Remove margens externas dos elementos.</label><br>
+        <label><input type="radio" name="q4" value="d"> Centraliza os itens verticalmente.</label>
+      </div>
+
+      <div class="pergunta" id="q5box">
+        <p>5) Qual estilo aplicado à imagem dentro da classe <code>.card img</code> garante que ela se ajuste ao
+          contêiner?</p>
+        <label><input type="radio" name="q5" value="a"> <code>border-radius: 10px;</code></label><br>
+        <label><input type="radio" name="q5" value="b"> <code>width: 100%;</code></label><br>
+        <label><input type="radio" name="q5" value="c"> <code>font-size: 0.9rem;</code></label><br>
+        <label><input type="radio" name="q5" value="d"> <code>background: #1a1a1a;</code></label>
+      </div>
+
+      <button type="button" onclick="corrigir()">Enviar Respostas</button>
+    </form>
+
+
+      <p id="resultado"></p>
+     
+  </div>
+
+   
+  <script>
+  function corrigir() {
+    let respostasCorretas = {
+      q1: "b", // <article> representa conteúdo independente
+      q2: "b", // flex-wrap permite quebra de linha
+      q3: "c", // animação suave com transform
+      q4: "b", // gap cria espaçamento entre itens
+      q5: "b"  // width: 100% ajusta ao contêiner
+    };
+
+    let pontos = 0;
+    let total = 5;
+    let form = document.getElementById("quizForm");
+
+    for (let q in respostasCorretas) {
+      let resposta = form[q].value;
+      let box = document.getElementById(q + "box");
+
+      let antigo = box.querySelector(".feedback");
+      if (antigo) antigo.remove();
+
+      let feedback = document.createElement("p");
+      feedback.classList.add("feedback");
+
+      if (resposta === respostasCorretas[q]) {
+        pontos++;
+        feedback.textContent = "✅ Correto!";
+        feedback.classList.add("correto");
+      } else {
+        let respostaCorretaTexto = "";
+        let labels = box.querySelectorAll('label input');
+        labels.forEach(input => {
+          if (input.value === respostasCorretas[q]) {
+            respostaCorretaTexto = input.parentNode.textContent.trim();
+          }
+        });
+
+        feedback.textContent = `❌ Errado. A resposta correta é: ${respostaCorretaTexto}`;
+        feedback.classList.add("errado");
+      }
+
+      box.appendChild(feedback);
+    }
+
+    document.getElementById("resultado").textContent =
+      `Você acertou ${pontos} de ${total} questões.`;
+  }
+</script>
+</body>
+
+</html>
